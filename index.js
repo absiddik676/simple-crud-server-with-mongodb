@@ -48,6 +48,21 @@ async function run() {
         res.send(result)
     })
 
+    app.put('/user/:id', async(req,res)=>{
+      const id = req.params.id;
+      const user = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateUser = {
+        $set:{
+          name:user.name,
+          email : user.email
+        }
+      }
+      const result = await userCollocation.updateOne(filter, updateUser, options);
+      res.send(result)
+    })
+
     app.delete('/deleteUser/:id', async (req,res)=>{
       const id = req.params.id;
       console.log('please delete this id',id);
